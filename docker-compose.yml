@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+   db:
+     image: mysql:5.7
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: password
+       MYSQL_DATABASE: devops
+       MYSQL_USER: devops
+       MYSQL_PASSWORD: devops
+
+   java:
+     depends_on:
+       - db
+     image: java:latest
+     
+     ports:
+       - "8000:82"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: devops
+       WORDPRESS_DB_PASSWORD: devops
+       WORDPRESS_DB_NAME: devops
+volumes:
+    db_data: {}
